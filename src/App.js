@@ -12,41 +12,50 @@ import {
 export default class App extends Component {
   state = {
     isLoading: false,
-    invoices: [
-      {
-        id: "100",
-        Vendor: "CHANEL",
-        Amount: "$10,000.00",
-        Invoice: "1234",
-        Date: "01/01/2020"
-      },
-      {
-        id: "101",
-        Vendor: "Guccy",
-        Amount: "$20,000.00",
-        Invoice: "1235",
-        Date: "01/01/2020"
-      },
-      {
-        id: "102",
-        Vendor: "LV",
-        Amount: "$1,000.00",
-        Invoice: "1236",
-        Date: "01/01/2020"
-      },
-      {
-        id: "103",
-        Vendor: "ACNE",
-        Amount: "$20,000.00",
-        Invoice: "1237",
-        Date: "01/01/2020"
-      }
-    ]
+    invoices: []
+    // invoices: [
+    //   {
+    //     id: "100",
+    //     Vendor: "CHANEL",
+    //     Amount: "$10,000.00",
+    //     Invoice: "1234",
+    //     Date: "01/01/2020"
+    //   },
+    //   {
+    //     id: "101",
+    //     Vendor: "Guccy",
+    //     Amount: "$20,000.00",
+    //     Invoice: "1235",
+    //     Date: "01/01/2020"
+    //   },
+    //   {
+    //     id: "102",
+    //     Vendor: "LV",
+    //     Amount: "$1,000.00",
+    //     Invoice: "1236",
+    //     Date: "01/01/2020"
+    //   },
+    //   {
+    //     id: "103",
+    //     Vendor: "ACNE",
+    //     Amount: "$20,000.00",
+    //     Invoice: "1237",
+    //     Date: "01/01/2020"
+    //   }
+    // ]
   };
 
   remove(id) {
     let updatedInvoices = [...this.state.invoices].filter(i => i.id !== id);
     this.setState({ invoices: updatedInvoices });
+  }
+
+  async componentDidMount() {
+    const response = await fetch(
+      "https://qbchqc9qt2.execute-api.us-west-2.amazonaws.com/Dev"
+    );
+    const body = await response.json();
+    this.setState({ invoices: body, isLoading: false });
   }
 
   render() {
